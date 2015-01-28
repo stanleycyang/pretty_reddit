@@ -15,8 +15,7 @@ RSpec.describe User, :type => :model do
     user = FactoryGirl.build(:user, email: nil)
     expect(user).to be_invalid
   end
-
-  
+ 
   it 'is invalid if email is not formatted properly' do
 
     user = FactoryGirl.build(:user, email: 'asdfgh')
@@ -33,5 +32,28 @@ RSpec.describe User, :type => :model do
     expect(user1).to be_invalid
     expect(user2).to be_invalid
   end
+
+  it 'is invalid when name is over 50 characters' do
+    user = FactoryGirl.create(:user)
+    user.name = "a" * 51
+    expect(user).to be_invalid
+  end
+
+  it 'is invalid when email is over 255 characters' do
+
+    user = FactoryGirl.create(:user)
+    user.email = "a" * 244 + "example.com"
+    expect(user).to be_invalid
+
+  end
+
+  it 'is should have a minimum length' do
+
+    user = FactoryGirl.create(:user)
+    user.password = user.password_confirmation = "a" * 5
+    expect(user).to be_invalid
+
+  end
+
 
 end

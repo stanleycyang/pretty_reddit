@@ -2,9 +2,11 @@
 
 Create the app
 
-	rails new pretty_reddit --skip-bundle -Td postgresql
+	$ rails new pretty_reddit --skip-bundle -Td postgresql
 	
-	cd pretty_reddit
+	$ cd pretty_reddit
+
+##Setting up GEMFILE
 
 Go into Gemfile
 
@@ -18,6 +20,7 @@ Then, add the following:
 	gem 'active_model_serializers'
 	gem 'angular-rails-templates'
 	gem 'bower-rails'
+	gem 'bcrypt', '~> 3.1.7'
 	
 	group :test, :development do
 		gem 'rspec-rails'
@@ -28,30 +31,33 @@ Then, add the following:
 
 Then run bundle in the terminal
 
-	bundle install
-	bundle update
+	$ bundle install
+	$ bundle update
+
+##Set up database
 
 Set up the database
 
-	rake db:create
+	$ rake db:create
 
 Turn on your server to make sure this is working:
 
-	rails s
+	$ rails server
 
+##Bower
 
 Install node if you don't have it
 
-	brew install node
+	$ brew install node
 
 Then install bower
 
-	npm install bower
+	$ npm install bower
 	
 
 Then initialize bower.json
 
-	rails g bower_rails:initialize json
+	$ rails g bower_rails:initialize json
 
 In bower.json, add:
 
@@ -73,7 +79,7 @@ In bower.json, add:
 
 Run:
 
-	rake bower:install
+	$ rake bower:install
 
 Which will return:
 
@@ -94,6 +100,8 @@ Which will return:
 	angular#1.3.11 bower_components/angular
 	
 	jquery#2.1.3 bower_components/jquery
+
+##Configuring AngularJS
 
 In application.rb
 
@@ -122,39 +130,41 @@ Adjust application.css.scss
 
 	@import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
 	@import "bootstrap-sass-official/assets/stylesheets/bootstrap";
-	
+
+##Single Page App
 
 In routes, set the default route to:
 
-	root 'application#index'
+	root 'home#index'
 	
-Add the action index to application_controller.rb
+Add the action index to home_controller.rb
 
 	def index
 	end
 
 Create the folder
 
-	mkdir app/views/application
+	$ mkdir app/views/home
 
 Create index.html in app/views/application
 
-	touch app/views/application/index.html.erb
+	$ touch app/views/home/index.html.erb
 
 Remove any turbolinks references, such as in application.html
 
-	 <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
 	 
 	  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
 And adjust to:
 
-	<%= stylesheet_link_tag    'application', media: 'all' %>
+	  <%= stylesheet_link_tag    'application', media: 'all' %>
+	  
 	  <%= javascript_include_tag 'application' %>
 
 Start your rails server
 
-	rails server
+	$ rails server
 
 In application.html.erb, add in the opening <html> tag
 
@@ -165,6 +175,8 @@ In the application.html.erb page, add in the <body> tag the following:
 	{{3 + 4}}
 
 If your app returns a 7 on a blank screen, congratulations! You have set up angular with rails!
+
+##Model Testing
 
 Let's set up RSpec
 
@@ -264,3 +276,45 @@ Now, validate it with the following
 
 	validates :email, presence: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, uniqueness: {case_sensitive: false}
 
+Test a user name to make sure it can't be over 50 characters
+
+	it 'is not valid when name is over 50' do
+	    user = FactoryGirl.create(:user)
+	    user.name = "a" * 51
+	    expect(user).to be_invalid
+	end
+
+Then write the code in user.rb
+
+	validates :name, presence: true, length: {maximum: 50}
+
+With your user model working, let's create the users controller
+
+	$ rails generate controller Users
+
+Generate migration for password digest
+
+	rails g migration add_password_digest_to_users password_digest:string
+
+Rake the db
+
+	rake db:migrate
+
+In the user model, add has_secure_password
+
+	has_secure_password
+
+
+Let's create a test for minimum password length:
+
+	 it 'is should have a minimum length' do
+	
+	   user = FactoryGirl.create(:user)
+	   user.password = user.password_confirmation = "a" * 5
+	   expect(user).to be_invalid
+	
+	 end
+
+Then, validate in your user.rb model
+
+	validates :password, length: {minimum: 6}
