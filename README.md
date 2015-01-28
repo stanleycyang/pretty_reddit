@@ -29,6 +29,7 @@ Then, add the following:
 Then run bundle in the terminal
 
 	bundle install
+	bundle update
 
 Set up the database
 
@@ -164,3 +165,102 @@ In the application.html.erb page, add in the <body> tag the following:
 	{{3 + 4}}
 
 If your app returns a 7 on a blank screen, congratulations! You have set up angular with rails!
+
+Let's set up RSpec
+
+	$ rails generate rspec:install
+
+Set up a User model
+
+	$ rails g model User name email
+
+Which will throw back
+
+	invoke  active_record
+    create    db/migrate/20150128063521_create_users.rb
+    create    app/models/user.rb
+    invoke    rspec
+    create      spec/models/user_spec.rb
+    invoke      factory_girl
+    create        spec/factories/users.rb
+
+Then, let's run our migration
+
+	$ rake db:migrate
+
+In user_spec.rb
+
+	require 'rails_helper'
+
+	RSpec.describe User, :type => :model do
+	  
+	  it 'has a valid factory'
+	  it 'is invalid without a name'
+	  it 'is invalid without an email'
+	  it 'returns full name as a string'
+	  it 'is invalid without an email address'
+	  it 'is invalid if email is not formatted properly'
+	  it 'is invalid if email already exists'
+	
+	end
+
+
+Let's check and see if we have a valid user factory
+
+	it 'has a valid factory' do
+	    expect(FactoryGirl.build(:user)).to be_valid
+	end
+
+Let's build a test to check the user's does name exist
+
+	it 'is invalid without a name' do
+	    user = FactoryGirl.build(:user, name: nil)
+	    expect(user).to be_invalid
+	end
+
+In the user model, add the following validation to the user name
+
+	validates :name, presence: true
+
+Let's build a test to check email exist
+
+	it 'is invalid without an email' do
+	    user = FactoryGirl.build(:user, email: nil)
+	    expect(user).to be_invalid
+	end
+
+In the user model, add the following validation to the user email
+
+	validates :email, presence: true
+
+Let's test the email to make sure its properly formatted
+
+	it 'is invalid if email is not formatted properly' do
+	
+	    user = FactoryGirl.build(:user, email: 'asdfgh')
+	    
+	    expect(user).to be_invalid
+	    
+	end
+
+To make it pass, let's
+
+	validates :email, presence: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+
+Now, let's write a test to check if the people can make accounts with the same email
+
+	  it 'is invalid if email already exists' do
+	    user = FactoryGirl.create(:user, email: 'jack@gmail.com')
+	
+	    user1 = FactoryGirl.build(:user, email: 'jack@gmail.com')
+	
+	    user2 = FactoryGirl.build(:user, email: 'jack@gmail.com')
+	
+	    expect(user1).to be_invalid
+	    expect(user2).to be_invalid
+	  end
+
+Now, validate it with the following
+
+	validates :email, presence: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, uniqueness: {case_sensitive: false}
+

@@ -11,6 +11,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'active_model_serializers'
 gem 'angular-rails-templates'
+gem 'bcrypt', '~> 3.1.7'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 gem 'spring',        group: :development
@@ -20,10 +21,11 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'better_errors'
+  gem 'capybara'  
 end 
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+
 
 # Use unicorn as the app server
 # gem 'unicorn'
