@@ -1,7 +1,26 @@
-<div class="col-md-8">
+<div class="col-md-2">
 	
 </div>
 
-<div class="col-md-4">
-	
+
+<div class="col-md-10">
+	<div ng-repeat="post in main.Post.index">
+		<!-- {{post}} -->
+		<a href="{{post.link}}" class="post">{{post.title}}</a>
+		<a href="/profile/{{post.poster.id}}">{{post.poster.name}}</a>
+
+		<span>{{post.created_at}}</span>
+
+		<div ng-repeat="comment in post.comments">
+			<p>{{comment.body}}</p>
+			<span>By: </span><a href="/profile/{{comment.commenter.id}}">{{comment.commenter.name}}</a><span>{{comment.created_at}}</span>
+		</div>
+	</div>
 </div>
+
+
+
+
+
+
+

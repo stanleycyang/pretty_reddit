@@ -20,7 +20,9 @@ $black-text-color: #151515;
 // Font stack
 $main-font: 'Roboto Condensed', sans-serif;
 
+// Distance
 $pushed: 250px;
+$header-height: 60px;
 
 // ### Default SASS classes ###
 
@@ -105,7 +107,7 @@ body
 header
 {
 	position: fixed;
-	height: 60px;
+	height: $header-height;
 	top: 0;
 	left: 0;
 	background-color: $main-theme-color;
@@ -141,10 +143,19 @@ header
 	}
 }
 
+// Footer
+
 footer
 {
 	.glyphicon-heart
 	{
 		color: #FA5858;
 	}
+}
+
+// view-container
+
+div#view-container
+{
+	margin-top: $header-height;
 }

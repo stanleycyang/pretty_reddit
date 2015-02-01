@@ -1,9 +1,11 @@
 module API
   class PostsController < ApplicationController
 
-    protect_from_forgery with: :null_session
+    protect_from_forgery with: :null_session    
 
     respond_to :html, :xml, :json
+
+    before_action :logged_in_user, only: [:create, :destroy]
 
     def index
       respond_with Post.all
@@ -14,7 +16,7 @@ module API
     end
 
     def create
-      post = Post.new(post_params)
+      post = current_user.posts.build(post_params)      
 
       if post.save
         render json: book, status: 201

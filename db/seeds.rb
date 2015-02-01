@@ -7,27 +7,49 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-    posts = Post.create(
-      [
-        {
-          link: "yahoo.com",
-          title: "Fun Stuff",
-          user_id: 1
-        },
-        {
-          link: "yahoo.com",
-          title: "More Fun Stuff",
-          user_id: 1
-        },
-        {
-          link: "yahoo.com",
-          title: "Awesome Stuff",
-          user_id: 1
-        },
-        {
-          link: "yahoo.com",
-          title: "This is cool Stuff",
-          user_id: 1
-        },
-      ]
-    )
+user = User.find(1)
+
+posts = Post.create(
+  [
+    {
+      link: "https://yahoo.com",
+      title: "Fun Stuff",
+      user: user
+    },
+    {
+      link: "https://google.com",
+      title: "More Fun Stuff",
+      user: user
+    },
+    {
+      link: "https://espn.com",
+      title: "Awesome Stuff",
+      user: user
+    },
+    {
+      link: "https://github.com",
+      title: "This is cool Stuff",
+      user: user
+    },
+  ]
+)
+
+comments = Comment.create(
+  [
+    {
+      body: "what an awesome link!",
+      user: user,
+      post: Post.first
+    },
+    {
+      body: "this link sux!",
+      user: user,
+      post: Post.first
+    },
+    {
+      body: "i'm an internet troll, you guys!",
+      user: user,
+      post: Post.first
+    },
+  ]
+  )

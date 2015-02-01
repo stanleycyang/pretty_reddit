@@ -4,17 +4,18 @@ Rails.application.routes.draw do
 
   # This is our single page (app)  
   root 'home#index'  
+  get '*', to: redirect('/')  
 
   namespace :api, defaults: {format: :json} do
     # Resource for our users
     resources :users, only: [ :create, :update, :destroy]
 
     # Resource for users' posts
-    resources :posts, except: [ :new, :edit]
+    resources :posts, except: [:new, :edit]
     # Resource for sessions
     resources :sessions, only: [:new, :create, :destroy]
     # Resources for comments
-    resources :comments, except: [ :new, :edit]
+    resources :comments, only: [:create, :update, :destroy]
   end
 
 end

@@ -14,7 +14,8 @@ module API
     end
 
     def create
-      comment = Comment.new(comment_params)
+      comment = Post.find(params[:id]).comments.build(comment_params)
+      comment.user_id = current_user      
 
       if comment.save
         render json: book, status: 201
@@ -25,7 +26,7 @@ module API
 
     def update
       comment = Comment.find(params[:id])
-      if Comment.update(Comment_params)
+      if Comment.update(comment_params)
         render json: comment,
         status: 200
       else

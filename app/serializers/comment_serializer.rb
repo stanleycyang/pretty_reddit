@@ -1,6 +1,9 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :body, :user_id, :post_id, :created_at
+  attributes :id, :body, :commenter, :created_at
 
-  delegate :current_user, to: :scope
+  def commenter
+    return {id: object.user.id, name: object.user.name}
+
+  end
 
 end
