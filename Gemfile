@@ -27,6 +27,11 @@ group :test, :development do
   gem 'capybara'  
 end 
 
+group :production do
+  gem 'rails_12factor'
+  gem 'thin'
+end
+
 # Use ActiveModel has_secure_password
 
 
