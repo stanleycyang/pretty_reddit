@@ -9,15 +9,29 @@
         <h4 class="modal-title" id="loginLabel">Login</h4>
       </div>
 
-      <form>
+      
+        <%= form_for(:session, url: login_path) do |f| %>
+        
         <div class="modal-body">
-          <input type="email" class="form-control" autofocus='true' placeholder="Email" />
-          <input type="password" class="form-control" placeholder="Password" />
+
+            <%= f.email_field :email, class: 'form-control', autofocus: 'true', placeholder: "Email" %>
+
+            <br />
+
+            <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+
+            
         </div>
+
         <div class="modal-footer">
-          <button type="submit" id="sign-up-button" class="btn btn-lg btn-success">Login</button>
+          
+          <%= f.submit "Log in", class: 'btn btn-md btn-success' %>
+
         </div>
-    </form>
+
+        <% end %>
+
+    
     </div>
   </div>
 </div>

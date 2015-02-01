@@ -54,6 +54,16 @@ $header-height: 60px;
 	z-index: 10;
 }
 
+// .signup
+// {
+// 	margin-top: 80px;
+// }
+
+.error-message
+{
+	margin-top: 10px;
+}
+
 // Animations
 
 .push-menu
@@ -73,6 +83,10 @@ $header-height: 60px;
 		background-color: #6E6E6E;
 		border: 0;
 		padding: 10px;
+		a
+		{
+			color: #fff;
+		}		
 	}
 }
 
@@ -85,6 +99,7 @@ $header-height: 60px;
 {
 	left: -$pushed;
 }
+
 
 // ### Default SASS Mixins ###
 
@@ -135,11 +150,12 @@ header
 	{
 		position: absolute;
 		top: 8px;		
-		color: $black-text-color;		
+		color: $black-text-color;				
 		@extend .no-spacing;
 		h1
 		{
-			@extend .no-spacing;	
+			@extend .no-spacing;
+			color: $black-text-color;	
 		}
 	}	
 
@@ -178,6 +194,7 @@ div#view-container
 
 div.link-container{
 	margin-bottom: 35px;
+	margin-top: 20px;
 	&:hover
 	{
 		background-color: #F2F2F2;
