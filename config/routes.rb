@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   # This is our single page (app)  
   root 'home#index'  
-  get '*', to: redirect('/')  
+  # get "*path" => "home#index" 
 
   namespace :api, defaults: {format: :json} do
     # Resource for our users

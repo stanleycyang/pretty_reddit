@@ -29,7 +29,7 @@
 		$(function(){
 
 			// jQuery for modal
-			$("#signup").on('shown.bs.modal', function(){
+			$("#login").on('shown.bs.modal', function(){
 				$(this).find("[autofocus]:first").focus();
 			});
 

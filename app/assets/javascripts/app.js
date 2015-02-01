@@ -4,7 +4,8 @@
 		.module('app', [
 			'templates',
 			'ngRoute',		
-			'ngResource'
+			'ngResource',
+			'ngtimeago'
 		]);
 
 })();
