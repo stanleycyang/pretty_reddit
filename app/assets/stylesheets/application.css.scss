@@ -1,19 +1,150 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any styles
- * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
- * file per style scope.
- *
  *= require_tree .
  *= require_self
  */
 
 
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+// ### Define variables ###
+
+// Colors
+$main-theme-color: #cee3f8;
+$border-theme-color: #5f99cf;
+$title-link-text-color: #369;
+$link-text-color: blue;
+$gray-text-color: #888;
+$black-text-color: #151515;
+
+// Font stack
+$main-font: 'Roboto Condensed', sans-serif;
+
+$pushed: 250px;
+
+// ### Default SASS classes ###
+
+.no-spacing
+{
+	padding: 0;
+	margin: 0;
+}
+
+.max-height
+{
+	min-height: 100%;
+}
+
+.max-width
+{
+	width: 100%;
+}
+
+.full-page
+{
+	@extend .no-spacing;
+	@extend .max-width;
+	@extend .max-height;
+}
+
+.top-layer
+{
+	z-index: 10;
+}
+
+// Animations
+
+.push-menu
+{
+	@extend .max-height;
+	width: 0;
+	position: fixed;
+	top: 0;
+	right: 0;
+	background-color: #424242;
+	transition: width 0.5s ease;
+}
+
+.pushed-menu
+{
+	width: $pushed;
+}
+
+.body-pushed
+{
+	left: -$pushed;
+}
+
+// ### Default SASS Mixins ###
+
+// ### Elements ###
+
+*
+{
+	border-radius: 0;
+}
+
+// HTML & Body
+
+html, body
+{
+	@extend .full-page;
+	font-family: $main-font;
+	background-color: #FAFA;
+}
+
+body
+{
+	position: relative;
+	left: 0px;
+	transition: left .5s ease;
+}
+
+// Header 
+
+header
+{
+	position: fixed;
+	height: 60px;
+	top: 0;
+	left: 0;
+	background-color: $main-theme-color;
+	border-bottom: 1px solid $border-theme-color;
+	transition: left .5s ease;
+	@extend .max-width;
+	@extend .top-layer;
+
+	#preddit
+	{
+		position: absolute;
+		top: 8px;		
+		color: $black-text-color;		
+		@extend .no-spacing;
+		h1
+		{
+			@extend .no-spacing;	
+		}
+	}	
+
+	.glyphicon-fire
+	{
+		color: #FE9A2E;
+		margin: 0 13px;
+	}
+	.glyphicon-menu-hamburger
+	{
+		font-size: 2.2em;
+		position: absolute;
+		right: 24px;
+		top: 16px;		
+		cursor: pointer;
+	}
+}
+
+footer
+{
+	.glyphicon-heart
+	{
+		color: #FA5858;
+	}
+}

@@ -1,8 +1,12 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
+  
+  include SessionsHelper
 
-  def index
+  # Removes root from the json
+  def default_serializer_options
+    {root: false}
   end
 
   protect_from_forgery with: :exception

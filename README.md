@@ -5,178 +5,66 @@ Create the app
 	$ rails new pretty_reddit --skip-bundle -Td postgresql
 	
 	$ cd pretty_reddit
+##Rails side:
 
-##Setting up GEMFILE
+###Remove Turbolinks:
 
-Go into Gemfile
+Remove from Gemfile:
 
-First, take out turbolinks
-	
 	-- gem turbolinks
+	
+Convert app/views/application.html.erb:
 
-Then, add the following: 
+	<%= stylesheet_link_tag    "application"%>
+	<%= javascript_include_tag "application"%>
+	
+Remove from app/assets/javascripts/application.js:
 
+	//= require turbolinks
+	
+###Remove JBuilder
 
-	gem 'active_model_serializers'
+from Gemfile
+
+	gem 'jbuilder', '~> 1.2'
+
+###Add ActiveModelSerializers & AngularJS-Rails gems:
+
 	gem 'angular-rails-templates'
-	gem 'bower-rails'
-	gem 'bcrypt', '~> 3.1.7'
-	
-	group :test, :development do
-		gem 'rspec-rails'
-		gem 'factory_girl_rails'
-		gem 'better_errors'
-	end 
+	gem 'active_model_serializers'
+	gem 'angularjs-rails'
+	gem 'bcrypt'
 
 
-Then run bundle in the terminal
+Angular Side
 
-	$ bundle install
-	$ bundle update
+###Add angular javascript
 
-##Set up database
+Include in your application.js:
 
-Set up the database
-
-	$ rake db:create
-
-Turn on your server to make sure this is working:
-
-	$ rails server
-
-##Bower
-
-Install node if you don't have it
-
-	$ brew install node
-
-Then install bower
-
-	$ npm install bower
-	
-
-Then initialize bower.json
-
-	$ rails g bower_rails:initialize json
-
-In bower.json, add:
-
-	{
-	  "lib": {
-	    "name": "bower-rails generated lib assets",
-	    "dependencies": {
-	      
-	    }
-	  },
-	  "vendor": {
-	    "name": "bower-rails generated vendor assets",
-	    "dependencies": {
-	      "angular": "latest",
-	      "bootstrap-sass-official": "latest"
-	    }
-	  }
-	}
-
-Run:
-
-	$ rake bower:install
-
-Which will return:
-
-	/usr/local/bin/bower install -p
-	bower cached        git://github.com/angular/bower-angular.git#1.3.11
-	bower validate      1.3.11 against git://github.com/angular/bower-angular.git#*
-	bower cached        git://github.com/twbs/bootstrap-sass.git#3.3.3
-	bower validate      3.3.3 against git://github.com/twbs/bootstrap-sass.git#*
-	bower cached        git://github.com/jquery/jquery.git#2.1.3
-	bower validate      2.1.3 against git://github.com/jquery/jquery.git#>= 1.9.0
-	bower install       bootstrap-sass-official#3.3.3
-	bower install       angular#1.3.11
-	bower install       jquery#2.1.3
-	
-	bootstrap-sass-official#3.3.3 bower_components/bootstrap-sass-official
-	└── jquery#2.1.3
-	
-	angular#1.3.11 bower_components/angular
-	
-	jquery#2.1.3 bower_components/jquery
-
-##Configuring AngularJS
-
-In application.rb
-
-
-	  class Application < Rails::Application
-	    config.assets.paths << Rails.root.join("vendor","assets","bower_components")
-	    config.assets.paths << Rails.root.join("vendor","assets","bower_components","bootstrap-sass-official","assets","fonts")
-	
-	    config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff)$)
-	  end
-
-In assets.rb
-
-		Rails.application.config.assets.precompile += %w( bootstrap/glyphicons-halflings-regular.woff2 )
-
-
-Adjust application.js
-
-	//= require jquery
-	//= require jquery_ujs
 	//= require angular
-	//= require angular-rails-templates
-	//= require_tree .
+	//= require angular-resource
+	
+###Setup a view with an Angular app
 
-Adjust application.css.scss
 
-	@import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
-	@import "bootstrap-sass-official/assets/stylesheets/bootstrap";
+	rails g controller home index
 
-##Single Page App
-
-In routes, set the default route to:
+Then set your root to:
 
 	root 'home#index'
-	
-Add the action index to home_controller.rb
 
-	def index
-	end
-
-Create the folder
-
-	$ mkdir app/views/home
-
-Create index.html in app/views/application
-
-	$ touch app/views/home/index.html.erb
-
-Remove any turbolinks references, such as in application.html
-
-	  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-	 
-	  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-
-And adjust to:
-
-	  <%= stylesheet_link_tag    'application', media: 'all' %>
-	  
-	  <%= javascript_include_tag 'application' %>
-
-Start your rails server
-
-	$ rails server
-
-In application.html.erb, add in the opening <html> tag
+Go into application.html.erb and add ng-app to the <html> tag
 
 	<html ng-app>
 
-In the application.html.erb page, add in the <body> tag the following:
+Go into views/home/index.html.erb
 
 	{{3 + 4}}
 
-If your app returns a 7 on a blank screen, congratulations! You have set up angular with rails!
+If it returns 7, congratulations!! You have successful set up angularJS and rails together
 
-##Model Testing
+##User Model
 
 Let's set up RSpec
 
@@ -209,7 +97,6 @@ In user_spec.rb
 	  it 'has a valid factory'
 	  it 'is invalid without a name'
 	  it 'is invalid without an email'
-	  it 'returns full name as a string'
 	  it 'is invalid without an email address'
 	  it 'is invalid if email is not formatted properly'
 	  it 'is invalid if email already exists'
@@ -222,6 +109,8 @@ Let's check and see if we have a valid user factory
 	it 'has a valid factory' do
 	    expect(FactoryGirl.build(:user)).to be_valid
 	end
+	
+This test should pass no problem :-)
 
 Let's build a test to check the user's does name exist
 
@@ -318,3 +207,240 @@ Let's create a test for minimum password length:
 Then, validate in your user.rb model
 
 	validates :password, length: {minimum: 6}
+
+Add a resources :users to routes.rb
+
+	root 'home#index'
+	resources :users
+
+Now we have a working User model!
+
+##Post Model
+
+Let's create a Post model!
+
+	$ rails g model Post link title user:references
+
+Let's create a Comment model!
+
+	$ rails g model Comment body:string user:references
+	
+	$ rails g controller Comments 
+
+Rake our db
+
+	$ rake db:migrate
+	
+It will return the following: 
+
+	 invoke  active_record
+      create    db/migrate/20150128220206_create_posts.rb
+      create    app/models/post.rb
+      invoke    rspec
+      create      spec/models/post_spec.rb
+      invoke      factory_girl
+      create        spec/factories/posts.rb
+
+Include resources for posts in routes.rb
+
+	resources :posts
+
+The tests are 
+
+	it 'has a valid factory for post'
+	it 'is invalid without a link'
+	it 'has a valid link format'
+	it 'is invalid without a title'
+	it 'has a title less than 50 characters long'
+
+
+Let's test the Post Factory
+
+	it "has a valid factory for post" do
+	    expect(FactoryGirl.build(:user)).to be_valid
+	end
+
+This should pass with the default factory :-)
+
+
+Create a test for name
+
+	it 'is invalid without a name' do     
+	    post = FactoryGirl.build(:post, link: nil)    
+	    expect(post).to be_invalid    
+	end
+
+Validate the link in Post.rb
+
+	validates :link, presence: true
+
+Check if the link has a correct format
+
+	it 'has a valid link format' do
+	   post = FactoryGirl.build(:post, link: 'sadas')
+	   expect(post).to be_invalid
+	 end
+
+Change the link validation in post.rb to
+
+	validates :link, presence: true, format: {with: /https?:\/\/[\S]+/}
+
+Check if the post is invalid without a title
+
+	  it 'is invalid without a title' do
+	    post = FactoryGirl.build(:post, title: nil)
+	    expect(post).to be_invalid
+	  end
+
+Change the title validation in post.rb to
+
+	validates :title, presence: true
+
+Check if the post title is invalid when over 50 characters
+
+	it 'is invalid when title is over 50 characters' do
+
+	    post = FactoryGirl.build(:post)
+	    post.title = "a" * 51
+	    expect(post).to be_invalid
+	
+	end
+
+Validate the title length by adding
+
+	validates :title, presence: true, length: {maximum: 50}
+
+Finish this section off by generating a posts controller
+
+	rails g controller posts
+
+#Rails API Layer
+
+Let's turn our user controller to an API layer
+	
+In routes.rb, add a namespace :api around the resources and default the format to JSON
+
+	namespace :api, defaults: {format: :json} do
+	    # Resource for our users
+		resources :users, only: [ :create, :update, :destroy]
+	
+	    # Resource for users' posts
+	    resources :posts, except: [ :new, :edit]
+	end
+
+
+In the inflections.rb file, let's add the acronym for 'API'
+
+		ActiveSupport::Inflector.inflections(:en) do |inflect|
+	  inflect.acronym 'API'
+	end
+
+`Restart your rails server now.`
+
+Now wrap your UsersController class in the module API users_controller.rb
+
+	module API
+	  class UsersController < ApplicationController
+	
+	    
+	    
+	
+	  end
+	end
+
+Create an API direction in the controllers folder
+
+	mkdir app/controllers/api
+
+Move your users_controller.rb and posts_controller.rb into app/controllers/api
+
+	mv app/controllers/users_controller.rb app/controllers/api
+	
+	mv app/controllers/posts_controller.rb app/controllers/api
+
+
+Now, let's make sure your controller has all the actions
+
+	module API
+	  class UsersController < ApplicationController
+	  	
+	  	respond_to :json	  	
+	
+	    def create
+	    end
+	
+	    def update
+	    end
+	
+	    def destroy
+	    end
+	
+	
+	  end
+	end
+
+For posts_controller.rb
+
+	module API
+	  class PostsController < ApplicationController
+	
+	    respond_to :html, :xml, :json
+	
+	    def index      
+	    end
+	
+	    def show
+	    end
+	
+	    def create
+	    end
+	
+	    def update
+	    end
+	
+	    def destroy
+	    end
+	
+	  end
+	end
+
+
+Generate sessions controller
+
+	$ rails generate controller Sessions new
+	
+Update the routes
+
+	namespace :api, defaults: {format: :json} do
+	    # Resource for our users
+	    resources :users, only: [ :create, :update, :destroy]
+	
+	    # Resource for users' posts
+	    resources :posts, except: [ :new, :edit]
+	
+	    resources :sessions, only: [:new, :create, :destroy]
+	  end
+	
+
+Create post serializer
+
+	$ rails g serializer post
+
+Create comment serializer
+
+	$ rails g serializer comment
+
+
+##AngularJS
+
+Create app.js
+	
+Create routing.js
+
+Create maincontroller.js
+
+Create a templates folder in javascript
+
+	mkdir app/assets/javascripts/templates
+
+In here we can create our templates for angular routing

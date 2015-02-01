@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="app">
 <head>
-  <title>PrettyReddit</title>
+  <title ng-bind="title"></title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
+  <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=0" />
   <%= csrf_meta_tags %>
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
 </head>
-<body>
+<body ng-class="{true: 'body-pushed'}[main.pushmenu]">
 
+
+<%= render 'shared/header' %>
+<%= render 'shared/sidenav' %>
+<br />
+<br />
+<%= render 'shared/modal' %>
 
 <%= yield %>
+
+<%= render 'shared/footer' %>
 
 </body>
 </html>
