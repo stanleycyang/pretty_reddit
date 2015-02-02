@@ -3,11 +3,7 @@
 
 <div class="col-md-8 col-md-offset-2">
 
-	<!-- <div>
-		<h3>Post link!</h3>
-	</div> -->
-
-	<div class="link-container" ng-repeat="post in main.Post.index | filter:searchText" ng-class="{'even-container': $even}">
+	<div class="link-container" ng-repeat="post in main.Post.index | filter:searchText" ng-show="{main.Post.index.length > 0}">
 		
 		<a class="links" href="{{post.link}}" class="post">{{post.title}}</a>
 		
@@ -20,7 +16,7 @@
 
 		<!-- <div ng-show="main.Post.isNotZero(post.comments.length)">Showing {{post.comments.length}} comments</div> -->
 
-		<div class="col-xs-offset-1 comments" ng-repeat="comment in post.comments">			
+		<div class="comments" ng-repeat="comment in post.comments">			
 			
 
 
@@ -33,7 +29,7 @@
 		<div class="comment-box">
 			<form>
 				<textarea auto-grow placeholder="Comment.." class="form-control"></textarea>
-				<input type="submit" value="Comment" class="pull-right" />
+				<input type="submit" value="Comment" class="pull-right submit-input" />
 			</form>
 
 		</div>
@@ -51,6 +47,8 @@
 	</div>
 	
 </div>
+
+
 
 
 

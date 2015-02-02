@@ -4,6 +4,40 @@
 		<h1><span class="glyphicon glyphicon-fire"></span>Preddit</h1>	
 	</a>
 
-	<a class="glyphicon glyphicon-menu-hamburger" ng-click="main.pushmenu = !main.pushmenu"></a>
+	<% if logged_in? %>
+
+		<a class="glyphicon glyphicon-edit" data-toggle="modal" data-target="#post-link"></a>
+
+	<% end %>
+
+
+	<a class="glyphicon glyphicon-menu-hamburger" ng-click="main.pushmenu = !main.pushmenu"></a>	
 	
 </header>
+
+
+<!-- Modal -->
+<div class="modal fade" id="post-link" tabindex="-1" role="dialog" aria-labelledby="post-linkLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="post-linkLabel">Post a link</h4>
+      </div>
+      <div class="modal-body">
+
+      	<input type="text" class="form-control" autofocus="true" placeholder="Enter link.." />
+
+      	<br />
+
+        <textarea class="form-control" placeholder="Description"></textarea>
+
+      </div>
+      <div class="modal-footer">        
+        <input type="submit" class="btn btn-success" value="Post link" />
+      </div>
+    </div>
+  </div>
+</div>
+
+

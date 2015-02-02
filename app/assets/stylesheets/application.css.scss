@@ -164,6 +164,14 @@ header
 		color: #FE9A2E;
 		margin: 0 13px;
 	}
+	.glyphicon-edit
+	{
+		font-size: 1.6em;
+		position: absolute;
+		right: 95px;
+		top: 18px;
+		cursor: pointer;		
+	}
 	.glyphicon-menu-hamburger
 	{
 		font-size: 2.2em;
@@ -192,29 +200,37 @@ div#view-container
 	margin-top: $header-height;
 }
 
-div.link-container{
-	margin-bottom: 35px;
-	margin-top: 20px;
+div.link-container{	
+	padding: 30px;
+	margin: 10px 0;
+
 	&:hover
 	{
 		background-color: #F2F2F2;
+		border-left: 1px dashed $border-theme-color;
 	}
 	
 	.links
 	{
 		font-size: 1.8em;
 		color: $link-text-color;
-	}		
-	.comment
+	}	
+	.comments
 	{
-		color: $link-text-color;
+		margin: 20px 20px;
+	}	
+	.comment
+	{		
+		color: $link-text-color;		
 		&:hover{
 			text-decoration: underline;
 			cursor: pointer;
-		}
+		}		
 	}
+
 	.comment-box
 	{
+		margin-top: 25px;
 		margin-bottom: 60px;	
 		input[type="submit"]
 		{
@@ -225,6 +241,11 @@ div.link-container{
 	.time
 	{
 		color: $gray-text-color;
+	}
+	.submit-input
+	{
+		background-color: $main-theme-color;
+		border: 1px solid $border-theme-color;
 	}
 }
 
