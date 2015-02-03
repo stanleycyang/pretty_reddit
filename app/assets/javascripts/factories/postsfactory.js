@@ -4,9 +4,9 @@
 		.module('app')
 		.factory('PostsFactory', PostsFactory);
 
-	PostsFactory.$inject = ['Resources'];
+	PostsFactory.$inject = ['Resources', '$http'];
 
-	function PostsFactory(Resources){
+	function PostsFactory(Resources, $http){
 
 		var Posts = function(){
 			var self = this;
@@ -15,17 +15,20 @@
 			var PostResource = new Resources('posts');
 
 			// Get all posts
-			self.index = PostResource.query();
+			self.posts = PostResource.query();
 
-			// Post
-			self.create = function(){
+			// Create a post object
+			self.post = new PostResource();
 
+			self.create = function(post){
+				
+				PostResource.save(post, function(data, headers){
+					// console.log(data);
+					// console.log(headers());	
+					self.posts.unshift(data);				
+				});		
 			};
-
-			// Show specific post
-			self.show = function(){
-
-			};
+			
 
 			// Edit a post
 			self.update = function(){
@@ -33,15 +36,15 @@
 			};
 
 			// Delete a post
-			self.destroy = function(){
+			self.destroy = function(post, index){
+				
+				var postObj = {id: post};
+				PostResource.delete(post);
+				self.posts.splice(index, 1);
 
 			};
 
-			self.isNotZero = function(value) {
-				if(value > 0){
-					return true;
-				}
-			};
+			
 
 
 		};

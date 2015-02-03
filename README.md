@@ -32,9 +32,20 @@ from Gemfile
 
 	gem 'angular-rails-templates'
 	gem 'active_model_serializers'
-	gem 'angularjs-rails'
+	
 	gem 'bcrypt'
+	gem 'bower-rails'
 
+Set up bower.json
+
+	rails g bower_rails:initialize json
+
+In the bower.json, let's include dependencies
+
+	"dependencies": {
+	  "angular": "latest",
+	  "angular-ui-router": "latest"
+	 }
 
 Angular Side
 
@@ -44,6 +55,7 @@ Include in your application.js:
 
 	//= require angular
 	//= require angular-resource
+	//= require angular-ui-router
 	
 ###Setup a view with an Angular app
 

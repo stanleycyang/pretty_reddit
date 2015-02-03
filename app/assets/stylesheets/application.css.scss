@@ -227,6 +227,13 @@ div.link-container{
 			cursor: pointer;
 		}		
 	}
+	.remove
+	{
+		position: relative;
+		left: 98%;
+		cursor: pointer;
+		width: 16px;		
+	}
 
 	.comment-box
 	{
@@ -284,4 +291,9 @@ div#filter
 .even-container
 {
 	// background-color: #FBF2EF;
+}
+
+#no-one-posted
+{
+	margin-top: 50px;
 }

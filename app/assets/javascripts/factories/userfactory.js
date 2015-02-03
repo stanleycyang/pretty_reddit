@@ -11,20 +11,11 @@
 
 			var UserResource = new Resources('users');
 
-			self.show = function(userId){				
-				var get = UserResource.get(userId).$promise.then(function(response){
-					return response;
-				});
-				return get;
-			};
-
-		
-			self.create = function(user){							
-				UserResource.save(user);
-			};
+			// This grabs the user
+			self.show = UserResource.get();						
 
 			self.destroy = function(userId){
-				UserResource.delete(userId);
+				UserResource.delete({'id': userId});
 			};
 
 			self.update = function(user){

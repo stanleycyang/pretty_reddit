@@ -17,12 +17,12 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     # Resource for our users
-    resources :users, only: [ :create, :show, :update, :destroy]
-
+    resources :users
     # Resource for users' posts
-    resources :posts, except: [:new, :edit]
+    resources :posts
     # Resources for comments
-    resources :comments, only: [:create, :update, :destroy]
+    resources :comments
+    # resources :comments, only: [:create, :update, :destroy]
   end
 
 end

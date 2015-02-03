@@ -1,20 +1,15 @@
 <nav class="push-menu" ng-class="{true: 'pushed-menu'}[main.pushmenu]">
 	
 	
-	<div class="col-xs-12">
+	<div class="col-xs-12" ng-controller="cookieController as cookie">
 		<% if logged_in? %>
 			<a href="/home/#/"><button>Home</button></a>	
 			<button><%= link_to "Profile", "/home/#/profile/#{session[:user_id]}" %></button>
-			<button><%= link_to "Logout", logout_path, method: "delete" %> </button>
+			<button ng-click="cookie.remove()"><%= link_to "Logout", logout_path, method: "delete" %> </button>
 		<% else %>
 			<button data-toggle="modal" data-target="#login">Log in</button>
 		<% end %>
 		
 	</div>
-	<!-- <div class="col-xs-12">
-		<a href="/#/signup"><button>Sign up</button></a>
-	</div> -->
-	<!-- <div class="col-xs-12">
-		
-	</div> -->
+	
 </nav>

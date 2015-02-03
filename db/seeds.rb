@@ -7,7 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-user = User.find(1)
+User.create(name: "Stanley Yang", email: "stanleyang13@gmail.com", password: "foobar")
+user= User.find_by(email: "stanleyang13@gmail.com")
 
 posts = Post.create(
   [

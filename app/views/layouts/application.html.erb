@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
-  <title>{{title}}<%= yield(:title) %> </title>
+<% if logged_in? %>
+  <title ng-bind="title"></title>
+<% else %>
+  <title><%= yield(:title) %> </title>
+<% end %>
+
+  
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   
@@ -19,7 +25,12 @@
 
 <%= render 'shared/header' %>
 <%= render 'shared/sidenav' %>
-<%= render 'shared/modal' %>
+
+
+<% if !logged_in? %>
+  <%= render 'shared/modal' %>
+<% end %>
+
 
 <div id="view-container" class="container-fluid" ng-click="main.pushmenu = false">
 	

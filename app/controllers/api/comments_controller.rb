@@ -15,7 +15,7 @@ module API
 
     def create
       comment = Post.find(params[:id]).comments.build(comment_params)
-      comment.user_id = current_user      
+      # comment.user_id = current_user      
 
       if comment.save
         render json: book, status: 201
@@ -43,7 +43,7 @@ module API
     private
     
       def comment_params
-        params.require(:comment).permit(:title, :link)
+        params.require(:comment).permit(:title, :link, :user_id, :password_id)
       end
 
   end

@@ -1,9 +1,18 @@
+<!-- {{main.Comment.get}} -->
+<!-- {{main.Post.get}} -->
+<!-- {{main.Post.show}} -->
+
+<div class="col-md-8 col-md-offset-2" id="no-one-posted">
+	<div class="col-md-12 text-center well" ng-hide="main.Post.posts.length !== 0">
+		<h4>No one has posted yet. Start <a data-toggle="modal" data-target="#post-link">posting!</a></h4>
+	</div>
+
+	<div class="link-container" ng-repeat="post in main.Post.posts | filter:searchText" ng-show="main.Post.posts.length > 0">
 
 
-
-<div class="col-md-8 col-md-offset-2">
-
-	<div class="link-container" ng-repeat="post in main.Post.index | filter:searchText" ng-show="{main.Post.index.length > 0}">
+		<div class="remove" ng-show="post.poster.id === main.id" ng-click="main.Post.destroy(post.id, $index)">
+			<span class="glyphicon glyphicon-remove"></span>
+		</div>
 		
 		<a class="links" href="{{post.link}}" class="post">{{post.title}}</a>
 		
@@ -12,7 +21,7 @@
 
 		<br />
 
-		<span class="comment">Comment</span>
+		<!-- <span class="comment">Comment</span> -->
 
 		<!-- <div ng-show="main.Post.isNotZero(post.comments.length)">Showing {{post.comments.length}} comments</div> -->
 
@@ -27,7 +36,7 @@
 
 		</div>
 		<div class="comment-box">
-			<form>
+			<form ng-submit="main.Comment.create()">
 				<textarea auto-grow placeholder="Comment.." class="form-control"></textarea>
 				<input type="submit" value="Comment" class="pull-right submit-input" />
 			</form>
@@ -47,6 +56,47 @@
 	</div>
 	
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="post-link" tabindex="-1" role="dialog" aria-labelledby="post-linkLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="post-linkLabel">Post a link</h4>
+      </div>
+
+      <form ng-submit="main.Post.create(main.Post.post)">
+        <div class="modal-body">
+          <input type="text" ng-model="main.Post.post.link" class="form-control" autofocus="true" placeholder="Enter link.."  />
+          <br />          
+          <textarea ng-model="main.Post.post.title" auto-grow class="form-control" style="min-height: 80px;" placeholder="Description"></textarea>
+      </div>
+      <div class="modal-footer">
+          <input type="submit" id="submit" class="btn btn-success" value="Submit" />
+        </div>    
+      </form>
+
+
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  // When doc loads
+    $(function(){
+
+      // jQuery for modal
+      $("#post-link").on('shown.bs.modal', function(){
+        $(this).find("[autofocus]:first").focus();
+      });
+
+
+    });
+</script>
 
 
 

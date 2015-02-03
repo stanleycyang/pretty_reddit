@@ -3,13 +3,14 @@
 		.module('app')
 		.factory('Resources', Resources);
 
-		Resources.$inject = ["$resource"];
+		Resources.$inject = ["$resource", 'ipCookie'];
 
-	function Resources($resource, type){
+	function Resources($resource, ipCookie, type){
 		
 		var Resource = function(type){
 
 			var self = this;
+			self.ipCookie = ipCookie('id');				
 			
 			self.service = 
 				$resource('/api/' + type + '/:id', {
@@ -19,8 +20,17 @@
 		            method: 'GET',
 		            isArray: true
 		          },
+		          get:{
+		          	method: 'GET',
+		          	params:{id: self.ipCookie}
+		          },
+		          save: {
+		          	method: 'POST',
+		          	params:{user_id: self.ipCookie}
+		          },
 		          update: {
-		            method: 'PUT'
+		            method: 'PUT',
+		            params:{user_id: self.ipCookie}
 		          }
 		        });
 

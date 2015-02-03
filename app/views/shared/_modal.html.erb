@@ -35,3 +35,16 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  // When doc loads
+    $(function(){
+
+      // jQuery for modal
+      $("#login").on('shown.bs.modal', function(){
+        $(this).find("[autofocus]:first").focus();
+      });
+
+
+    });
+</script>

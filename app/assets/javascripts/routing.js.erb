@@ -7,10 +7,10 @@
     .config(config)
     .run(run);
 
-  function config($routeProvider, $locationProvider){
+  function config($routeProvider, $locationProvider, $httpProvider){
       
       // Get rid of hash in our url
-      // $locationProvider.html5Mode({enabled:true, requireBase:true});
+      // $locationProvider.html5Mode({enabled:true, requireBase:true});      
 
       // Define our routes
       $routeProvider

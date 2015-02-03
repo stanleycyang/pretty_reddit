@@ -4,8 +4,9 @@
 		.module('app', [
 			'templates',
 			'ngRoute',		
-			'ngResource',
-			'ngtimeago'
+			'ngResource',						
+			'ngtimeago',
+			'ipCookie'
 		]);
 
 })();

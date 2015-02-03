@@ -1,11 +1,8 @@
 module API
   class PostsController < ApplicationController
-
-    protect_from_forgery with: :null_session    
-
-    respond_to :html, :xml, :json
-
-    before_action :logged_in_user, only: [:create, :destroy]
+    protect_from_forgery with: :null_session
+       
+    respond_to :html, :xml, :json    
 
     def index
       respond_with Post.all
@@ -16,10 +13,13 @@ module API
     end
 
     def create
-      post = current_user.posts.build(post_params)      
+      # post = current_user.posts.build(post_params)  
+      post = Post.new(post_params)
+      user = User.find(params[:user_id])
+      post.user = user   
 
       if post.save
-        render json: book, status: 201
+        render json: post, status: 201
       else
         render json: {errors: post.errors}, status: 422
       end
@@ -28,8 +28,7 @@ module API
     def update
       post = Post.find(params[:id])
       if post.update(post_params)
-        render json: post,
-        status: 200
+        render json: post, status: 200
       else
         render json: {errors: post.errors}, status: 422
       end
@@ -44,7 +43,7 @@ module API
     private
     
       def post_params
-        params.require(:post).permit(:title, :link)
+        params.require(:post).permit(:title, :link, :user_id)
       end
       
 
