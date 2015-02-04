@@ -14,11 +14,15 @@ module API
     end
 
     def create
-      comment = Post.find(params[:id]).comments.build(comment_params)
-      # comment.user_id = current_user      
+      comment = Comment.new(comment_params)
 
+      # Get the default user_id
+      user = User.find(params[:user_id])      
+      comment.user = user         
+
+      # Save method
       if comment.save
-        render json: book, status: 201
+        render json: comment, status: 201
       else
         render json: {errors: comment.errors}, status: 422
       end
@@ -43,7 +47,7 @@ module API
     private
     
       def comment_params
-        params.require(:comment).permit(:title, :link, :user_id, :password_id)
+        params.require(:comment).permit(:body, :user_id, :post_id)
       end
 
   end

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'home/index'
+
   # login page
   root 'users#new'
 
@@ -16,8 +18,6 @@ Rails.application.routes.draw do
   # get "*path" => "home#index" 
 
   namespace :api, defaults: {format: :json} do
-    # Resource for our users
-    resources :users
     # Resource for users' posts
     resources :posts
     # Resources for comments

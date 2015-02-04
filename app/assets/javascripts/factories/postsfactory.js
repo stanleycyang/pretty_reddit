@@ -22,31 +22,32 @@
 
 			self.create = function(post){
 				
-				PostResource.save(post, function(data, headers){
-					// console.log(data);
-					// console.log(headers());	
-					self.posts.unshift(data);				
-				});		
+				PostResource.save(post, function(data, headers, status){	
+					// take post from array								
+					self.posts.unshift(data);							
+					// Clear the modal form
+					post.link = '';
+					post.title = '';		
+					// Close the modal
+					$('#post-link').modal('toggle');
+				}).$promise.catch(function(response) {
+				    //this will be fired upon error
+				    if(response.status !== 201){
+				    	self.postError = true;
+				    }
+				});
 			};
 			
-
-			// Edit a post
-			self.update = function(){
-
-			};
 
 			// Delete a post
 			self.destroy = function(post, index){
 				
 				var postObj = {id: post};
-				PostResource.delete(post);
+				PostResource.delete(postObj);
+
 				self.posts.splice(index, 1);
 
-			};
-
-			
-
-
+			};		
 		};
 
 		return Posts;

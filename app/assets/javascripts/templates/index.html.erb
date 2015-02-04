@@ -1,14 +1,9 @@
-<!-- {{main.Comment.get}} -->
-<!-- {{main.Post.get}} -->
-<!-- {{main.Post.show}} -->
-
 <div class="col-md-8 col-md-offset-2" id="no-one-posted">
 	<div class="col-md-12 text-center well" ng-hide="main.Post.posts.length !== 0">
 		<h4>No one has posted yet. Start <a data-toggle="modal" data-target="#post-link">posting!</a></h4>
 	</div>
 
 	<div class="link-container" ng-repeat="post in main.Post.posts | filter:searchText" ng-show="main.Post.posts.length > 0">
-
 
 		<div class="remove" ng-show="post.poster.id === main.id" ng-click="main.Post.destroy(post.id, $index)">
 			<span class="glyphicon glyphicon-remove"></span>
@@ -21,23 +16,24 @@
 
 		<br />
 
-		<!-- <span class="comment">Comment</span> -->
+		<div class="comments" ng-repeat="comment in post.comments">		
 
-		<!-- <div ng-show="main.Post.isNotZero(post.comments.length)">Showing {{post.comments.length}} comments</div> -->
-
-		<div class="comments" ng-repeat="comment in post.comments">			
 			
-
+		<div class="remove grey smaller" ng-show="post.poster.id === main.id" ng-click="main.Comment.destroy(comment.id, $index, $parent.$index)">
+				<span class="glyphicon glyphicon glyphicon-remove-circle"></span>
+			</div>
 
 			<a href="/#/profile/{{comment.commenter.id}}">{{comment.commenter.name}}</a><span class="time">{{comment.created_at | timeago}}</span>
 
 			<p>{{comment.body}}</p>
-						
+			
+
 
 		</div>
 		<div class="comment-box">
-			<form ng-submit="main.Comment.create()">
-				<textarea auto-grow placeholder="Comment.." class="form-control"></textarea>
+
+			<form name="commentBox" ng-submit="main.Comment.create(post.comment, post.id, $index)">
+				<textarea auto-grow ng-model="post.comment" placeholder="Comment.." class="form-control"></textarea>
 				<input type="submit" value="Comment" class="pull-right submit-input" />
 			</form>
 
@@ -72,7 +68,10 @@
         <div class="modal-body">
           <input type="text" ng-model="main.Post.post.link" class="form-control" autofocus="true" placeholder="Enter link.."  />
           <br />          
-          <textarea ng-model="main.Post.post.title" auto-grow class="form-control" style="min-height: 80px;" placeholder="Description"></textarea>
+          <textarea ng-model="main.Post.post.title" auto-grow class="form-control" style="min-height: 60px;" placeholder="Description"></textarea>
+
+          <div ng-show="main.Post.postError === true" class="text-warning row text-center">Error!</div>
+
       </div>
       <div class="modal-footer">
           <input type="submit" id="submit" class="btn btn-success" value="Submit" />

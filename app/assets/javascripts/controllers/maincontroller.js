@@ -19,15 +19,9 @@
 		self.Post = new PostsFactory();
 
 		// Create CommentsFactory as an object
-		self.Comment = new CommentsFactory();
+		self.Comment = new CommentsFactory(self.Post);
 
-		self.id = ipCookie('id');
-		
-
-		
-		// self.Post.create(self.Post.post);
-
-		
+		self.id = ipCookie('id');		
 								
 
 

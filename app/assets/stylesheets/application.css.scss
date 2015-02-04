@@ -26,6 +26,15 @@ $header-height: 60px;
 
 // ### Default SASS classes ###
 
+.grey
+{
+	color: $gray-text-color;
+}
+.smaller
+{
+	font-size: 0.8em;
+}
+
 .no-spacing
 {
 	padding: 0;
@@ -182,6 +191,12 @@ header
 	}
 }
 
+
+a
+{
+	cursor: pointer;
+}
+
 // Footer
 
 footer
@@ -296,4 +311,5 @@ div#filter
 #no-one-posted
 {
 	margin-top: 50px;
+	
 }

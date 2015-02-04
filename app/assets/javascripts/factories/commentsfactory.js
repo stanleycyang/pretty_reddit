@@ -6,36 +6,43 @@
 
 	CommentsFactory.$inject = ['Resources'];
 
-	function CommentsFactory(Resources){
-		var Comments = function(){
+	function CommentsFactory(Resources, Post){
+		var Comments = function(Post){
 			var self = this;
+
 
 			var CommentsResource = new Resources('comments');
 
 			// Access to all the comments
-			self.comments = CommentsResource.query();
-
-			// Comment object
-			self.comment = new CommentsResource();
-
-			// Get a specific comment
-			// self.get = CommentsResource.get({id: 1});				
+			self.comments = CommentsResource.query();					
 						
 			// This create a new comment
-			self.create = function(comment){
-				// self.comment.$save();
-				// self.index.push(self.comment);
-				// self.comment = new CommentsResource();
-				alert(comment);
+			self.create = function(comment, postId, index){
+				var commentObj= {body: comment, post_id: postId};
+
+				CommentsResource.save(commentObj, function(data, headers, status){	
+					
+					// Pushes this into the posts
+					Post.posts[index].comments.push(data);			
+										
+				}).$promise.catch(function(response) {
+				    //this will be fired upon error
+				    if(response.status !== 201){
+				    	console.log('failed');
+				    }
+				});
 			};
 
-			self.update = function(){
+			self.destroy = function(comment, index, parentIndex){
+				
+				var commentObj = {id: comment};
+				
+				// Remove it from DOM
+				Post.posts[parentIndex].comments.splice(index, 1);
 
-			};
-
-			self.destroy = function(post){
-				CommentsResource.delete(post);
-				_.remove(self.index, post);
+				// Delete request
+				CommentsResource.delete(commentObj);	
+												
 			};
 
 		};
