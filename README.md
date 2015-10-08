@@ -11,4 +11,9 @@
 	Ruby on Rails	
 	Postgresql
 
+###Installations
+
+	$ git clone git@github.com:stanleycyang/pretty_reddit.git
+
+
 	
