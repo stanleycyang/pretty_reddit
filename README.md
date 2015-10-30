@@ -14,6 +14,7 @@
 ###Installations
 
 	$ git clone git@github.com:stanleycyang/pretty_reddit.git
+	$ cd preddit_reddit && rails s
 
 
 	
